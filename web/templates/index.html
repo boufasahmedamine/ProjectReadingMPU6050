@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>IMU Data Acquisition & Analysis</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1>IMU Data Acquisition & Analysis</h1>
+  
+  <div class="control-panel">
+    <form id="metaForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Reading Type:</label>
+          <input type="text" id="reading_type" placeholder="e.g., vibration, movement, test" required>
+        </div>
+        <div class="form-group">
+          <label>Date:</label>
+          <input type="date" id="date" value="" required>
+        </div>
+      </div>
+      
+      <div class="btn-row">
+        <button type="button" id="startBtn">Start Recording</button>
+        <button type="button" id="stopBtn">Stop Recording</button>
+      </div>
+    </form>
+    
+    <div class="status">
+      <strong>Status:</strong> <span id="state">Idle</span>
+      <span id="filename">-</span>
+    </div>
+  </div>
+  
+  <div class="dashboard">
+    <div class="dashboard-row">
+      <div class="card">
+        <h3>Live IMU Data (Last Packet)</h3>
+        <div class="data-grid">
+          <div class="data-row">
+            <span class="label">Time:</span>
+            <span id="liveTime" class="value">-</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Acceleration (g):</span>
+            <span id="liveAccel" class="value">X: - Y: - Z: -</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Gyroscope (°/s):</span>
+            <span id="liveGyro" class="value">X: - Y: - Z: -</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Magnitude:</span>
+            <span id="liveMagnitude" class="value">- g</span>
+          </div>
+          <div class="data-row">
+            <span class="label">RMS:</span>
+            <span id="liveRMS" class="value">-</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Mean:</span>
+            <span id="liveMean" class="value">-</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-label">Max Acceleration</div>
+            <div class="stat-value" id="statMaxAccel">- g</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Min Acceleration</div>
+            <div class="stat-value" id="statMinAccel">- g</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Avg Acceleration</div>
+            <div class="stat-value" id="statAvgAccel">- g</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Peak Frequency</div>
+            <div class="stat-value" id="statPeakFreq">- Hz</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Peaks Detected</div>
+            <div class="stat-value" id="statPeaks">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Samples</div>
+            <div class="stat-value" id="statSamples">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="plot-row">
+      <div class="plot-card">
+        <h3>Acceleration vs Time</h3>
+        <div id="accelPlot" class="plot"></div>
+      </div>
+      <div class="plot-card">
+        <h3>Frequency Spectrum (FFT)</h3>
+        <div id="fftPlot" class="plot"></div>
+      </div>
+    </div>
+    
+    <div class="plot-row">
+      <div class="plot-card">
+        <h3>Magnitude vs Time</h3>
+        <div id="magnitudePlot" class="plot"></div>
+      </div>
+      <div class="plot-card">
+        <h3>3D Acceleration Vector</h3>
+        <div id="vectorPlot" class="plot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
